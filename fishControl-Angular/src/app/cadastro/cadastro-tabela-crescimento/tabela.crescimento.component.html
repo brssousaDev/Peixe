@@ -1,0 +1,51 @@
+<header
+  titulo="Tabela Crescimento Peixe"
+  [modoEdit]="false"
+  [modoList]="true">
+</header>
+
+<form #mainForm="ngForm">
+  <div class="form-group">
+    <label>Semana</label>
+    <input class="form-control ml-2"
+           type="search"
+           style="width: 400px"
+           name="semana"
+           [(ngModel)]="filter.semana"
+           (keyup)="filtro()"
+           placeholder="Filtro por semana"/>
+  </div>
+  <div class="form-group">
+    <label>Peso(g)</label>
+    <input class="form-control ml-2"
+           type="search"
+           style="width: 400px"
+           name="peso"
+           [(ngModel)]="filter.pesoInicial"
+           (keyup)="filtro()"
+           placeholder="Filtro por peso"/>
+  </div>
+</form>
+<!-- GRID -->
+<div>
+  <table class="table table-striped" style="height: 100%">
+    <thead>
+    <tr class="table-primary ">
+      <th scope="col" width="30px">#</th>
+      <th #cellElement scope="col" width="30%">Fase</th>
+      <th scope="col" class="text-center">Semana</th>
+      <th scope="col" class="text-center">Peso Inicial</th>
+      <th scope="col" class="text-center">Peso Final</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of filterDataSource" class="hover">
+      <th scope="row">{{ data.id }}</th>
+      <td>{{ data.fase }}</td>
+      <td class="text-center">{{ data.semana }}</td>
+      <td class="text-center">{{ data.pesoInicial + 'g' }}</td>
+      <td class="text-center">{{ data.pesoFinal + 'g' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

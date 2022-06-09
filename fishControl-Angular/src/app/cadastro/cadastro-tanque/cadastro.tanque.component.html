@@ -1,0 +1,84 @@
+<header
+  titulo="Cadastro de Tanque"
+  editTitulo="Alterar Tanque"
+  [modoEdit]="editMode"
+  (onClear)="clean()"
+  (onChange)="validator()">
+</header>
+
+<!-- FORM -->
+  <form #mainForm="ngForm" [class]="validar">
+    <div class="form-group">
+      <label for="tanque">Tanque</label>
+      <input type="text" id="tanque" name="tanque" class="form-control" [(ngModel)]="filter.tanque" required #tanque="ngModel">
+      <div class="invalid-feedback" *ngIf="!tanque.valid">{{msgError}}</div>
+    </div>
+    <div class="form-group">
+      <label for="capacidade">Capacidade</label>
+      <input type="text" id="capacidade" name="capacidade" class="form-control" [(ngModel)]="filter.capacidade" required #capacidade="ngModel">
+      <div class="invalid-feedback" *ngIf="!capacidade.valid">{{msgError}}</div>
+    </div>
+    <div class="form-group">
+      <label for="dimensao">Dimensão</label>
+      <input type="text" id="dimensao" name="dimensao" class="form-control" [(ngModel)]="filter.dimensao">
+    </div>
+    <div class="form-check form-group">
+      <input type="checkbox" id="limite" name="limite" [(ngModel)]="filter.limite">
+      <label class="form-check-label" for="limite">Limitar este tanque na capacidade</label>
+    </div>
+
+  </form>
+
+<!-- GRID -->
+<div class="listas" *ngIf="dataSource.length>0">
+  <nav>
+    <div class="form-group form-inline">
+      <i class="bi bi-search"></i>
+      <input class="form-control ml-2" type="search" style="width: 400px" [(ngModel)]="search" placeholder="Buscar"/>
+    </div>
+  </nav>
+  <table class="table table-striped" style="height: 100%">
+    <thead>
+    <tr class="table-primary ">
+      <th scope="col" width="30px">#</th>
+      <th #cellElement scope="col" sortable="tanque" (sort)="onSort($event)">Tanques</th>
+      <th scope="col">Capacidades</th>
+      <th scope="col">Dimensão</th>
+      <th scope="col" class="align-right"></th>
+      <th scope="col" class="align-right"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of tanqueList | filter:search" class="hover">
+      <th scope="row">{{ data.id }}</th>
+      <td width="30%">
+        {{ data.tanque }}
+
+      <td width="30%">
+        {{ data.capacidade }}
+      </td>
+
+      <td width="30%">
+        {{ data.dimensao }}
+      </td>
+      <td class="text-center"  width="10px">
+        <button type="button" class="btn btn-sm bg-transparent pointer" (click)="edit(data)">
+          <span class="bi bi-pencil-square text-success"></span>
+        </button>
+      </td>
+      <td class="text-center"  width="10px">
+        <button type="button" class="btn btn-sm bg-transparent pointer" (click)="confirm(confirmeDelete, data.id)">
+          <span class="bi bi-trash-fill text-danger"></span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #confirmeDelete>
+  <div class="modal-body text-center" >
+    <p> Deseja realmente remover este item? </p>
+    <button type="button" class="btn btn-default" (click)="delete()">Sim</button>
+    <button type="button" class="btn btn-primary marge-button" (click)="onDeclined()">Não</button>
+  </div>
+</ng-template>

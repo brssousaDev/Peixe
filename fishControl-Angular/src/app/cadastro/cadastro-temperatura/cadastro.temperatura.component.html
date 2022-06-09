@@ -1,0 +1,93 @@
+<header
+  titulo="Cadastro de Temperatura"
+  editTitulo="Alterar Temperatura"
+  [modoEdit]="editMode"
+  (onClear)="clean()"
+  (onChange)="validator()">
+</header>
+
+<!-- FORM -->
+  <form #mainForm="ngForm" [class]="validar">
+    <div class="form-group">
+      <label for="mes">Selecione o Mês</label>
+      <select class="form-control" id="mes" name="mes" [(ngModel)]="filter.mes" required #mes="ngModel">
+        <option></option>
+        <option *ngFor="let mes of meses" [value]="mes.mes">{{mes.nome}}</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="!mes.valid">Mês é obrigatótio.</div>
+    </div>
+    <div class="form-group form-row">
+      <div class="col-11">
+        <label for="temperatura">Temperatura</label>
+        <input type="range" class="form-control-range" id="temperatura" name="temperatura" min="0" max="50" step="1"
+               style="min-width: 90%" [(ngModel)]="filter.temperatura">
+      </div>
+      <div class="col-1">
+        <label></label>
+        <input type="text" class="form-control" [value]="filter.temperatura" readonly>
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <div class="col-11">
+        <label for="porcentagem">Porcentagem</label>
+        <input type="range" class="form-control-range" id="porcentagem" name="porcentagem" min="0" max="100" step="10"
+               style="min-width: 90%" [(ngModel)]="filter.porcentagem">
+      </div>
+      <div class="col-1">
+        <label></label>
+        <input type="text" class="form-control" [value]="filter.porcentagem + '%'" readonly>
+      </div>
+    </div>
+  </form>
+
+<!-- GRID -->
+<div class="listas" *ngIf="dataSource.length>0">
+  <nav>
+    <div class="form-group form-inline">
+      <i class="bi bi-search"></i>
+      <input class="form-control ml-2" type="search" style="width: 400px" [(ngModel)]="search" placeholder="Buscar"/>
+    </div>
+  </nav>
+  <table class="table table-striped" style="height: 100%">
+    <thead>
+    <tr class="table-primary ">
+      <th #cellElement scope="col" sortable="mes" (sort)="onSort($event)">Meses</th>
+      <th #cellElement scope="col" sortable="temperatura" (sort)="onSort($event)">Temperatura</th>
+      <th #cellElement scope="col">Porcentagem</th>
+      <th scope="col" class="align-right"></th>
+      <th scope="col" class="align-right"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of dataSource | filter:search" class="hover">
+      <td width="25%">
+        {{mesDisplay(data.mes)}}
+      </td>
+      <td>
+        {{ data?.temperatura + '°' }}
+      </td>
+      <td>
+        {{ data?.porcentagem + '%' }}
+      </td>
+
+      <td class="text-center"  width="10px">
+        <button type="button" class="btn btn-sm bg-transparent pointer" (click)="edit(data)">
+          <span class="bi bi-pencil-square text-success"></span>
+        </button>
+      </td>
+      <td class="text-center"  width="10px">
+        <button type="button" class="btn btn-sm bg-transparent pointer" (click)="confirm(confirmeDelete, data.id)">
+          <span class="bi bi-trash-fill text-danger"></span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #confirmeDelete>
+  <div class="modal-body text-center" >
+    <p> Deseja realmente remover este item? </p>
+    <button type="button" class="btn btn-default" (click)="delete()">Sim</button>
+    <button type="button" class="btn btn-primary marge-button" (click)="onDeclined()">Não</button>
+  </div>
+</ng-template>

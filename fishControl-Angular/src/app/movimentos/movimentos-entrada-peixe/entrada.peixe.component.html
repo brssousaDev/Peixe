@@ -1,0 +1,52 @@
+<header
+  titulo="Entrada de Peixe"
+  [modoEdit]="false"
+  [modoList]="false"
+  (onClear)="clean()"
+  (onChange)="validator()">
+</header>
+
+<!-- FORM -->
+  <form #mainForm="ngForm" [class]="validar">
+    <div class="form-group">
+      <label for="tanque">Tanque</label>
+      <select id="tanque" class="form-control" name="tanque" [(ngModel)]="filter.tanque.id" required #tanque="ngModel" (ngModelChange)="infoTanque($event)">
+        <option></option>
+        <option *ngFor="let tanque of tanques" [value]="tanque.id">{{tanque.tanque}}</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="!tanque.valid">Selecione um Tanque</div>
+      <span class="badge badge-{{style}}" *ngIf="filter.tanque.id">{{ info }}</span>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="peixe">Peixe</label>
+        <select id="peixe" name="peixe" class="form-control" [(ngModel)]="filter.peixe.id" required #peixe="ngModel">
+          <option></option>
+          <option *ngFor="let peixe of peixes" [value]="peixe.id">{{peixe.peixe}}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="!peixe.valid">Selecione um Peixe</div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dataEntrada">Data da Entrada</label>
+        <input type="date" class="form-control" id="dataEntrada" name="dataEntrada" [(ngModel)]="filter.dataEntrada" required #dataEntrada="ngModel">
+        <div class="invalid-feedback" *ngIf="!dataEntrada.valid">Data é obrigatótio.</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="quantidade">Quantidade</label>
+        <input type="text" class="form-control" id="quantidade" name="quantidade" [(ngModel)]="filter.quantidade" required #quantidade="ngModel">
+        <div class="invalid-feedback" *ngIf="!quantidade.valid">Quantidade é obrigatótio.</div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="peso">Peso</label>
+        <input type="text" class="form-control" id="peso" name="peso" [(ngModel)]="filter.peso" required #peso="ngModel">
+        <div class="invalid-feedback" *ngIf="!peso.valid">Peso é obrigatótio.</div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="valor">Valor</label>
+        <input type="text" class="form-control" id="valor" name="valor" [(ngModel)]="filter.valor" #valor="ngModel" prefix="R$ " mask="separator.2" thousandSeparator=".">
+      </div>
+    </div>
+  </form>
+

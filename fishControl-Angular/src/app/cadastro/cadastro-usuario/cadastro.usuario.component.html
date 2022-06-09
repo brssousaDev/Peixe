@@ -1,0 +1,77 @@
+<header
+  titulo="Cadastro de Usuário"
+  editTitulo="Alterar Usuário"
+  [modoEdit]="editMode"
+  (onClear)="clean()"
+  (onChange)="validator()">
+</header>
+
+<!-- FORM -->
+  <form #mainForm="ngForm" [class]="validar">
+    <div class="form-group">
+      <label for="nome" class="form-control-label">Usuário</label>
+      <input type="text" id="nome" name="nome" class="form-control" [(ngModel)]="filter.nome" required #nome="ngModel">
+      <div class="invalid-feedback" *ngIf="!nome.valid">Usuário é campo obrigatótio.</div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" class="form-control" [(ngModel)]="filter.email" placeholder="exemplo@seudominio.com.br" email required #email="ngModel">
+      <div class="invalid-feedback" *ngIf="!email.valid">
+        {{ email.value ? 'Informe um e-mail válido' : 'E-mail é campo obrigatório' }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" name="senha" class="form-control" [(ngModel)]="filter.senha" required #senha="ngModel">
+      <div class="invalid-feedback" *ngIf="!senha.valid">Senha é campo obrigatótio.</div>
+    </div>
+  </form>
+
+<!-- GRID -->
+<div class="listas" *ngIf="dataSource.length>0">
+  <nav>
+    <div class="form-group form-inline">
+      <i class="bi bi-search"></i>
+      <input class="form-control ml-2" type="search" style="width: 400px" [(ngModel)]="search" placeholder="Buscar"/>
+    </div>
+  </nav>
+  <table class="table table-striped" style="height: 100%">
+    <thead>
+    <tr class="table-primary ">
+      <th scope="col" width="30px">#</th>
+      <th #cellElement scope="col" sortable="nome" (sort)="onSort($event)">Usuários</th>
+      <th scope="col">E-mail</th>
+      <th scope="col" class="align-right"></th>
+      <th scope="col" class="align-right"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of dataSource | filter:search" class="hover">
+      <th scope="row">{{ data.id }}</th>
+      <td width="40%">
+        {{ data.nome }}
+
+      <td width="40%">
+        {{ data.email }}
+      </td>
+      <td class="text-center"  width="10px">
+        <button type="button" class="btn btn-sm bg-transparent pointer" (click)="edit(data)">
+          <span class="bi bi-pencil-square text-success"></span>
+        </button>
+      </td>
+      <td class="text-center"  width="10px">
+        <button type="button" class="btn btn-sm bg-transparent pointer" (click)="confirm(confirmeDelete, data.id)">
+          <span class="bi bi-trash-fill text-danger"></span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #confirmeDelete>
+  <div class="modal-body text-center" >
+    <p> Deseja realmente remover este item? </p>
+    <button type="button" class="btn btn-default" (click)="delete()">Sim</button>
+    <button type="button" class="btn btn-primary marge-button" (click)="onDeclined()">Não</button>
+  </div>
+</ng-template>

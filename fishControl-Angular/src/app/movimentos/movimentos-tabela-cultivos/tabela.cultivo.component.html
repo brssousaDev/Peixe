@@ -1,0 +1,33 @@
+<header
+  titulo="Tabela Cultivo"
+  [modoEdit]="false"
+  [modoList]="true">
+</header>
+
+<!-- GRID -->
+<div>
+  <table class="table table-striped" style="height: 100%">
+    <thead>
+    <tr class="table-primary ">
+      <th #cellElement scope="col" width="35%">Tanque</th>
+      <th scope="col" width="15%">Peixe</th>
+      <th scope="col" class="text-center" width="10%">Semana</th>
+      <th scope="col" class="text-center" width="30%">Peso</th>
+      <th scope="col" class="text-center" width="10%">Quantidade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of tabelaCultivoList" class="hover">
+      <td>{{ data.tanque.tanque }}
+        <span class="badge badge-pill badge-danger" *ngIf="data.quantidade > data.tanque.capacidade">{{ data.quantidade - data.tanque.capacidade }} </span>
+        <span class="badge badge-pill badge-success" *ngIf="data.quantidade < data.tanque.capacidade"> {{ data.tanque.capacidade - data.quantidade }} </span>
+        <span class="badge badge-pill badge-warning" *ngIf="data.tanque.limite"><i class="bi bi-lock"></i></span>
+      </td>
+      <td>{{ data.peixe.peixe }}</td>
+      <td class="text-center">{{ data.semana.semana}}</td>
+      <td class="text-center">{{ 'Dê ' + data.semana.pesoInicial + 'g Até ' + data.semana.pesoFinal + 'g' }}</td>
+      <td class="text-center">{{ data.quantidade }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
