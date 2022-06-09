@@ -49,7 +49,7 @@ export class EntradaPeixeComponent extends BaseCrudComponent<EntradaPeixe> {
   }
 
   carregarCombos(){
-    this.tanqueServie.list().subscribe( tanques => this.tanques = this.sort(tanques, "tanque"));
+    this.tanqueServie.list().subscribe( tanques => this.tanques = tanques.sort((a,b)=>(a.tanque < b.tanque) ? -1 : 1));
     this.peixeServie.list().subscribe( peixes => this.peixes = peixes);
   }
 
