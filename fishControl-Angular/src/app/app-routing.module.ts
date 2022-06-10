@@ -7,9 +7,11 @@ import {CadastroTemperaturaComponent} from "./cadastro/cadastro-temperatura/cada
 import {EntradaPeixeComponent} from "./movimentos/movimentos-entrada-peixe/entrada.peixe.component";
 import {TabelaCrescimentoComponent} from "./cadastro/cadastro-tabela-crescimento/tabela.crescimento.component";
 import {TabelaCultivoComponent} from "./movimentos/movimentos-tabela-cultivos/tabela.cultivo.component";
+import {CadastroClienteComponent} from "./cadastro/cadastro-cliente/cadastro.cliente.component";
 
 const routes: Routes = [
   {path:"cadastro-usuario", component: CadastroUsuarioComponent },
+  {path:"cadastro-cliente", component: CadastroClienteComponent },
   {path:"cadastro-peixe", component: CadastroPeixeComponent },
   {path:"cadastro-tanque", component: CadastroTanqueComponent },
   {path:"cadastro-temperatura", component: CadastroTemperaturaComponent },
